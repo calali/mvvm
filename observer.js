@@ -1,27 +1,30 @@
 function Observer(data,vm){
     this.vm = vm
-    this.data = data
-    if(typeof data === 'object' && data !== null){
-        this._proxy()
-    }
+    this._proxy(data)
 }
-Observer.prototype._proxy = function(){
-    var self = this
-    Object.keys(self.data).forEach(function(key){
-        var dep = new Dep()
-        Object.defineProperty(self.data,key,{
-            enumerable: true,
-            configurable: false,
-            get : function(){
-                if(Dep.target){
-                    dep.depend(Dep.target)
-                }
-                return self.data[key]
-            },
-            set : function(newValue){
-                dep.notice()
-                self.data[key] = newValue
-            },
+Observer.prototype._proxy = function(data){
+    if(typeof data === 'object' && data !== null){
+        var self = this
+        Object.keys(data).forEach(function(key){
+            var dep = new Dep()
+            var value = data[key]
+            self._proxy(value)
+            Object.defineProperty(data,key,{
+                enumerable: true,
+                configurable: false,
+                get : function(){
+                    if(targetWatcher){
+                        dep.add(currentWatcher)
+                    }
+                    return value
+                },
+                set : function(newValue){
+                    if(value !== newValue){
+                        value = newValue
+                        dep.notice()
+                    }
+                },
+            })
         })
-    })
+    }
 }

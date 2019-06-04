@@ -1,11 +1,12 @@
 function Mvvm(options){
     this.options = options
     this._data = this.options.data()
+    this.methods = this.options.methods
     //this.text 代理为this._data.text
     this._proxy()
     //代理this._data
     new Observer(this._data,this)
-    this.$compile = new Compile(this)
+    new Compile(this)
 }
 
 Mvvm.prototype._proxy = function(){

@@ -7,8 +7,9 @@
     <title>MVVM</title>
 </head>
 <body>
-    <div id="app">
-        <p>{{text}}</p>
+    <div id="app">{{text}}
+        <p v-text="text" v-on:click="change"></p>
+
     </div>
     <script src="./dep.js"></script>
     <script src="./watcher.js"></script>
@@ -22,8 +23,14 @@
                 return {
                     text:'这是一段文字'
                 }
+            },
+            methods:{
+                change:function(){
+                    console.log(this.text)
+                }
             }
         })
+        wm.text = '更新文字'
     </script>
 </body>
     

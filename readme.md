@@ -1,8 +1,8 @@
-## 本项目的主题
+### 本项目的主题
 学习并实现vuejs的双向绑定。即下面的代码实现和vuejs同样的效果：
 ![code](./image/code.png)
 
-## vuejs的双向绑定是如何实现的？
+### vuejs的双向绑定是如何实现的？
 
 vuejs通过Object.defineProperty对data中数据进行劫持，结合订阅者-发布者模式实现了对数据的双向绑定。
 
@@ -23,10 +23,10 @@ subs是数组，存放需要订阅这个key的watcher。
 update方法执行初始化传入的回调方法，比如对{{text}}更新节点的文字内容。
 watcher在自己实例的时候，调用data的get,将自己放入对应key的订阅器里。
 
-## 如何自己实现vuejs的双向绑定？
+### 如何自己实现vuejs的双向绑定？
 参见项目中每个类的实现
 
-## 其他问题
+### 其他问题
 1，dep和watcher是什么关系？
 对mvvm实例中的_data的数据进行代理，每一个key都有一个对应的消息订阅器dep。
 dep每一个实例有一个id和一个订阅队列subs，subs存放watcher
@@ -34,7 +34,7 @@ depid是订阅器的id
 
 当对模板解析需要监听变化时，实例watcher，需要传入cb,vm，监听的改变的key,还有depids，表示当前wacher已经被放在了哪些dep里，以避免重复放入。
 
-## 感谢
-本项目是在学习https://github.com/DMQ/mvvm##_2项目的基础上，对自己不易理解的地方，写成了自己容易理解的方式。非常感谢DMQ。
+### 感谢
+本项目是在学习[DMQ](https://github.com/DMQ/mvvm)项目的基础上，对自己不易理解的地方，写成了自己容易理解的方式。非常感谢DMQ。
 
 

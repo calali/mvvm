@@ -62,9 +62,9 @@ Compile.prototype.compileNode=function(node){
 
 var compileUtil = {
     text:function(node,vm,key){
-        node.textContent = this.vm[key]
-        new Watcher(this.vm,key,function(value){
-            node.textContent = this.vm[key]
+        node.textContent = vm[key]
+        new Watcher(vm,key,function(value){
+            node.textContent = vm[key]
         })
     }
 }

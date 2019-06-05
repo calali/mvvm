@@ -12,5 +12,6 @@ Dep.prototype.notice = function(){
 Dep.prototype.add = function(watcher){
     if(watcher.depIds.join(",").indexOf(this.id) === -1){
         this.subs.push(watcher)
+        watcher.depIds.push(this.id)
     }
 }

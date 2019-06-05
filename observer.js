@@ -14,7 +14,7 @@ Observer.prototype._proxy = function(data){
                 configurable: false,
                 get : function(){
                     if(targetWatcher){
-                        dep.add(currentWatcher)
+                        dep.add(targetWatcher)
                     }
                     return value
                 },

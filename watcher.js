@@ -1,16 +1,19 @@
 var targetWatcher = null
 function Watcher (vm,key,cb){
     this.depIds = []//当前watcher被放在了哪些消息订阅器里
-    this.cb = cb
-    this.oldValue = this.get()//获取key的初始值
     this.vm = vm
     this.key = key
+    this.cb = cb
+    this.oldValue = this.get()
 }
 
-Watcher.prototype.update=function(newValue){
-    this.cb(newValue)
+Watcher.prototype.update=function(){
+    this.cb.call(this.vm)
 }
 Watcher.prototype.get=function(){
+    targetWatcher = this
     var key = this.key
-    return this.vm[key]
+    var value = this.vm[key]
+    targetWatcher = null
+    return value
 }

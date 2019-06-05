@@ -7,8 +7,9 @@
     <title>MVVM</title>
 </head>
 <body>
-    <div id="app">{{text}}
+    <div id="app">
         <p v-text="text" v-on:click="change"></p>
+        <p>{{wrapperText}}</p>
 
     </div>
     <script src="./dep.js"></script>
@@ -26,7 +27,12 @@
             },
             methods:{
                 change:function(){
-                    console.log(this.text)
+                    this.text = '改变文字'
+                }
+            },
+            computed:{
+                wrapperText:function(){
+                    return this.text+'123'
                 }
             }
         })

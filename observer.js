@@ -21,6 +21,7 @@ Observer.prototype._proxy = function(data){
                 set : function(newValue){
                     if(value !== newValue){
                         value = newValue
+                        // self._proxy(value)
                         dep.notice()
                     }
                 },

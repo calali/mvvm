@@ -1,4 +1,5 @@
 var targetWatcher = null
+
 function Watcher (vm,key,cb){
     this.depIds = []//当前watcher被放在了哪些消息订阅器里
     this.vm = vm
@@ -8,7 +9,9 @@ function Watcher (vm,key,cb){
 }
 
 Watcher.prototype.update=function(){
-    this.cb.call(this.vm)
+    var newValue = this.get()
+    this.cb.call(this.vm,newValue,this.oldValue)
+    this.oldValue = newValue
 }
 Watcher.prototype.get=function(){
     targetWatcher = this

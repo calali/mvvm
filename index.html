@@ -8,9 +8,10 @@
 </head>
 <body>
     <div id="app">
-        <p v-text="text" v-on:click="change"></p>
+        <p v-on:click="change">{{text}}</p>
         <p>{{wrapperText}}</p>
-
+        <p v-html="htmlStr"></p>
+        <input type="text" v-model="data.name">
     </div>
     <script src="./dep.js"></script>
     <script src="./watcher.js"></script>
@@ -22,7 +23,11 @@
             el:'#app',
             data(){
                 return {
-                    text:'这是一段文字'
+                    text:'文字',
+                    htmlStr: '<span style="color: #f00;">red</span>',
+                    data:{
+                        name:'名字'
+                    }
                 }
             },
             methods:{
@@ -30,14 +35,25 @@
                     this.text = '改变文字'
                 }
             },
-            // computed:{
-            //     wrapperText:function(){
-            //         return this.text+'123'
-            //     }
-            // }
+            computed:{
+                wrapperText:function(){
+                    return this.text+'123'
+                }
+            },
+            watch:{
+                text:function(){
+                    console.log(arguments)
+                }
+            },
+            created:function(){
+                console.log('created')
+            },
+            mounted:function(){
+                console.log('mounted')
+            }
         })
         wm.text = '更新文字'
     </script>
 </body>
     
-</html><!--  -->
+</html>

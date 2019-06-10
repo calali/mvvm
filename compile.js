@@ -51,20 +51,68 @@ Compile.prototype.compileNode=function(node){
                 },false)
             }else{
                 //普通指令
-                if(order === 'text'){
-                    compileUtil.text(node,self.vm,attrValue)
-                }
+                compileUtil[order](node,self.vm,attrValue)
             }
             node.removeAttribute(attrName)
         }
     })
 }
-
 var compileUtil = {
     text:function(node,vm,key){
-        node.textContent = vm[key]
+        domAction.text(node,getValue(vm,key))
         new Watcher(vm,key,function(value){
-            node.textContent = vm[key]
+            domAction.text(node,getValue(vm,key))
         })
+    },
+    html:function(node,vm,key){
+        domAction.html(node,getValue(vm,key))
+        new Watcher(vm,key,function(value){
+            domAction.html(node,getValue(vm,key))
+        })
+    },
+    model:function(node,vm,key){
+        var value = getValue(vm,key)
+        domAction.model(node,value)
+        node.addEventListener('input',function(e){
+            var newValue = e.target.value
+            if(newValue !== value){
+                value = newValue
+                domAction.model(node,value)
+            }
+        },false)
+        new Watcher(vm,key,function(value){
+            domAction.model(node,getValue(vm,key))
+        })
+    }, 
+}
+var domAction = {
+    text:function(node,value){
+        node.textContent = value
+    },
+    html:function(node,value){
+        node.innerHTML = value
+    },
+    model:function(node,value){
+        node.value = value
     }
+}
+function getValue (vm,key){
+    var arr = key.split('.')
+    var result = vm
+    arr.forEach(function(key){
+        result = result[key]
+    })
+    return result
+}
+function setValue(vm,key,value){
+    var arr = key.split('.')
+    var len = arr.length
+    var result = vm
+    arr.forEach(function(key,index){
+        if(index < len - 1){
+            result = result[key]
+        }else{
+            result[key] = value
+        }
+    })
 }

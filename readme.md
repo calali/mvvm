@@ -1,6 +1,6 @@
 ### 本项目的主题
 学习并实现vuejs的双向绑定。即下面的代码实现和vuejs同样的效果：
-![code](./image/code.png)
+![code](./image/code1.png)
 
 ### vuejs的双向绑定是如何实现的？
 

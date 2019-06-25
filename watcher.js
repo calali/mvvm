@@ -16,7 +16,23 @@ Watcher.prototype.update=function(){
 Watcher.prototype.get=function(){
     targetWatcher = this
     var key = this.key
-    var value = this.vm[key]
+    var value 
+    if(/\./.test(key)){
+        var exps = key.split('.')
+        var self = this
+        var getValue = function(obj) {
+            var obj = self.vm
+            for (var i = 0, len = exps.length; i < len; i++) {
+                if (!obj) return;
+                obj = obj[exps[i]];
+            }
+            return obj;
+        }
+
+       value = getValue(exps)
+    }else{
+        value = this.vm[key]
+    }
     targetWatcher = null
     return value
 }

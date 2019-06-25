@@ -76,8 +76,8 @@ var compileUtil = {
         node.addEventListener('input',function(e){
             var newValue = e.target.value
             if(newValue !== value){
-                value = newValue
-                domAction.model(node,value)
+                setValue(vm,key,newValue)
+                domAction.model(node,newValue)
             }
         },false)
         new Watcher(vm,key,function(value){

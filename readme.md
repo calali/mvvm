@@ -10,7 +10,7 @@ vuejs通过Object.defineProperty对data中数据进行劫持，结合订阅者-�
 
 1，MVVM类是其他类的执行入口。功能主要为初始化其他类。
 
-2，Observer类对data中的数据的每一个key进行监听劫持，并且如果有对象嵌套，也会对嵌套的key进行劫持。对每一个key，存在一个闭包的值value保存它的值；存在一个订阅器dep，用来存放当key发生变化的时候，触发订阅器告诉订阅器里面的watcher，watcher进行更新视图。
+2，Observer类对data中的数据的每一个key进行监听劫持，并且如果有对象嵌套，也会对嵌套的key进行劫持。对每一个key，存在一个闭包的值value保存它的值；存在一个订阅器dep，用来存放当key发生变化的时候，触发订阅器告诉订阅器里面的watcher，watcher进行更新视图或执行订阅的watcher回调。
 
 3，Dep类是订阅器，有两个实例属性:id是当前订阅器的id,data中的每个key都有一个唯一对应的dep的id;
 subs是数组，存放需要订阅这个key的watcher。
@@ -34,6 +34,19 @@ depid是订阅器的id
 
 当对模板解析需要监听变化时，实例watcher，需要传入cb,vm，监听的改变的key,还有depids，表示当前wacher已经被放在了哪些dep里，以避免重复放入。
 
+2，Compile编译，将目标节点下面的数据变成文档碎片，对每一个节点进行遍历：
+v-model进行初始赋值，对应的key添加watcher，并绑input事件
+v-html进行初始赋值，对应的key添加watcher
+v-text始赋值，对应的key添加watcher
+v-on:click对node绑定click事件
+
+3，当用户在input内输入数据，怎么实现数据的双向绑定？
+在MVVM初始化的时候，对data中的input1进行劫持。
+对模板进行解析，获取input上的变量input1值并赋值，并对input1添加watcher，并给watcher添加回调函数。
+当input发生改变的事件监听，获取新值并进行set。当input1被set时，通知订阅器，watcher进行更新。
+
+4，多层嵌套的对象，第二层改变了，如何通知第一层的呢？
+在初始化解析v-model="child.someStr"时，实例watcher，并获取逐次获取this.child和child.someStr的值，从而对它们的订阅器添加当前watcher。并且把获取到的值，保存在当前watcher实例中的value中。
 ### 感谢
 本项目是在学习[DMQ](https://github.com/DMQ/mvvm)项目的基础上，对自己不易理解的地方，写成了自己容易理解的方式。非常感谢DMQ。
 

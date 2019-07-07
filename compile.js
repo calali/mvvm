@@ -13,7 +13,6 @@ Compile.prototype.createFragment=function(){
         return fragment
 }
 Compile.prototype.compile=function(nodes){
-    //对文档进行解析，拿出来{{}}指令，并替换成对应的值
     var self = this
     nodes.forEach(function(node) {
         if(node.nodeType === 1){

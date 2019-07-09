@@ -20,7 +20,7 @@ Watcher.prototype.get=function(){
     if(/\./.test(key)){
         var exps = key.split('.')
         var self = this
-        var getValue = function(obj) {
+        var getValue = function() {
             var obj = self.vm
             for (var i = 0, len = exps.length; i < len; i++) {
                 if (!obj) return;
@@ -29,7 +29,7 @@ Watcher.prototype.get=function(){
             return obj;
         }
 
-       value = getValue(exps)
+       value = getValue()
     }else{
         value = this.vm[key]
     }
